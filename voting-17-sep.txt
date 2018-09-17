@@ -1,0 +1,53 @@
+pragma solidity ^0.4.24;
+
+contract VoteForRecord{
+    
+    address membershipLocation;
+    uint proposalIdCount = 0;
+    enum status {open, closed, accepted}
+    
+    //status of 'voted?' given voter address and given proposalId
+    mapping (address => mapping (uint => bool)) voted;
+    
+    mapping (uint => Proposal[]) ProposalById;
+    
+    Proposal[] proposals;
+    struct Proposal {
+        uint proposalId;
+        address proposer;
+        bytes proposalContent;
+        status proposalStatus;
+        uint timeStarted;
+        uint voteCount;
+    }
+    
+    constructor (address _membershipLocation) public {
+        membershipLocation = _membershipLocation;
+    }
+    
+    modifier isVotingMember (address _memberAddress) {
+        //require (membershipLocation.isMember(_memberAddress));
+        _;
+    }
+    
+    modifier hasNotVoted (uint _proposalId, address _hasVotedAddress) {
+        require (voted[_hasVotedAddress][_proposalId] == false);
+        _;
+    }
+    
+    function propose (bytes _content) public {
+        
+        proposals.push(Proposal(proposalIdCount, msg.sender, _content, status.open, block.timestamp, 0));
+        
+        
+        proposalIdCount += 1;
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+}
