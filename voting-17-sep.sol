@@ -2,19 +2,23 @@ pragma solidity ^0.4.24;
 
 contract VoteForRecord{
     
+    /*misc variables*/
     address membershipLocation;
     uint proposalIdCount = 0;
-    enum status {open, closed, accepted}
     
+    
+    /*variables regarding the vote status of an individual voter*/
     //status of 'voted?' given voter address and given proposalId
     mapping (address => mapping (uint => bool)) Voted;
     //allow membership contract to check this attribute
     //as member that has a voted proposal in progress cannot transfer membership
     mapping (address => uint) LastVoted;
     
+    /*variables regarding the proposal*/
+    enum status {open, closed, accepted}    
+    //link an id to a unique proposal
     mapping (uint => Proposal) ProposalById;
-    
-    //Proposal[] proposals; <-- not used
+    //things that proposal contains
     struct Proposal {
         //this id duplicates the mapping
         uint proposalId;
@@ -25,12 +29,14 @@ contract VoteForRecord{
         uint voteCount;
     }
     
+    /*function run at first setup*/
     //setup membership address for checking 
     //whether an address is a voting member etc. 
     constructor (address _membershipLocation) public {
         membershipLocation = _membershipLocation;
     }
     
+    /*modifiers*/
     modifier isVotingMember (address _memberAddress) {
         //needs the target membership contract to have 
         //an isMember (or similar )function
@@ -48,6 +54,7 @@ contract VoteForRecord{
         _;
     }
     
+    /*functions*/
     function propose (bytes _content) public {
         
         ProposalById[proposalIdCount] = (Proposal
@@ -62,16 +69,6 @@ contract VoteForRecord{
         
     }
     
-    //retrieve info of proposal given id
-    function getProposal (uint _getProposalId) public view returns(uint, address, bytes, status, uint, uint) {
-        return (ProposalById[_getProposalId].proposalId, 
-        ProposalById[_getProposalId].proposer, 
-        ProposalById[_getProposalId].proposalContent,
-        ProposalById[_getProposalId].proposalStatus,
-        ProposalById[_getProposalId].timeEnd, 
-        ProposalById[_getProposalId].voteCount);
-        
-    }
     
     function vote (uint _voteProposalId) public 
     isVotingMember(msg.sender) hasNotVoted(_voteProposalId,msg.sender) {
@@ -104,6 +101,17 @@ contract VoteForRecord{
     }
     
     
+    /*view functions (not writing the smart contract)*/
+    //retrieve info of proposal given id
+    function getProposal (uint _getProposalId) public view returns(uint, address, bytes, status, uint, uint) {
+        return (ProposalById[_getProposalId].proposalId, 
+        ProposalById[_getProposalId].proposer, 
+        ProposalById[_getProposalId].proposalContent,
+        ProposalById[_getProposalId].proposalStatus,
+        ProposalById[_getProposalId].timeEnd, 
+        ProposalById[_getProposalId].voteCount);
+        
+    }
     
 }
 
