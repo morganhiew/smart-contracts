@@ -16,7 +16,7 @@ const timeTravel = function (time) {
 
 
 
-contract('sunny-day cases', accounts => {
+contract('general sunny-day cases', accounts => {
   const acc1 = accounts[0];
   const acc2 = accounts[1];
   const acc3 = accounts[2];
@@ -43,7 +43,7 @@ contract('sunny-day cases', accounts => {
       assert.equal(content_voteCount, '0', 'Vote count is incorrect');
     })
 
-    it('acc2 should be able to vote a proposal', async () => {
+    it('another account should be able to vote a proposal', async () => {
         const meta = await voting.new('0x1', {from: acc1});
         await meta.propose ('hello world!', {from: acc1});
         await meta.vote('0', {from: acc2});
@@ -74,18 +74,38 @@ contract('sunny-day cases', accounts => {
       assert.equal (content_proposalStatus, 1, 'The vote is not failed');
     })
 
-    it('proposal ID should correctly increment', async () => {
-      const meta = await voting.new('0x1', {from: acc1});
-      await meta.propose ('hello world!', {from: acc1});
-      await meta.propose ('bello world!', {from: acc2});
-      await meta.propose ('rello world!', {from: acc2});
-      var [id0, b, c, d, e, f] = await meta.getProposal('0');
-      var [id1, h, i, j, k, l] = await meta.getProposal('1');
-      var [id2, n, o, p, q, r] = await meta.getProposal('2');
-      assert.equal (id0, 0, 'the proposal id increment is incorrect');
-      assert.equal (id1, 1, 'the proposal id increment is incorrect');
-      assert.equal (id2, 2, 'the proposal id increment is incorrect');
-    })
+
+})
+
+contract('increment checks', accounts => {
+  const acc1 = accounts[0];
+  const acc2 = accounts[1];
+  const acc3 = accounts[2];
+
+  it('proposal ID should correctly increment', async () => {
+    const meta = await voting.new('0x1', {from: acc1});
+    await meta.propose ('hello world!', {from: acc1});
+    await meta.propose ('bello world!', {from: acc2});
+    await meta.propose ('rello world!', {from: acc2});
+    var [id0, b, c, d, e, f] = await meta.getProposal('0');
+    var [id1, h, i, j, k, l] = await meta.getProposal('1');
+    var [id2, n, o, p, q, r] = await meta.getProposal('2');
+    assert.equal (id0, 0, 'the proposal id increment is incorrect');
+    assert.equal (id1, 1, 'the proposal id increment is incorrect');
+    assert.equal (id2, 2, 'the proposal id increment is incorrect');
+  })
+
+  it('vote count should correctly increment', async () => {
+    const meta = await voting.new('0x1', {from: acc1});
+    await meta.propose ('hello world!', {from: acc1});
+    await meta.vote('0', {from: acc1});
+    await meta.vote('0', {from: acc2});
+    await meta.vote('0', {from: acc3});
+    var [a, b, c, d, e, content_voteCount] = await meta.getProposal('0')
+    assert.equal (content_voteCount, 3, 'The vote increment is incorrect')
+  })
+
+
 })
 
 contract('rainy-day cases', accounts => {
@@ -136,3 +156,7 @@ contract('rainy-day cases', accounts => {
 
 
 })
+
+//cases not yet doable:
+//check non voting member cannot vote
+//check the total number of members

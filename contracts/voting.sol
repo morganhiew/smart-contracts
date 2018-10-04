@@ -116,7 +116,8 @@ contract voting{
         ProposalById[_getProposalId].voteCount);
         
     }
-    function showMembership() public view returns(address) {
+    
+function showMembership() public view returns(address) {
         return membershipLocation;
     }
 
