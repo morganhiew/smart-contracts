@@ -34,7 +34,7 @@ contract voting{
     //setup membership address for checking 
     //whether an address is a voting member etc. 
     constructor (address _membershipLocation) public {
-        membershipLocation = _membershipLocation;
+	membershipLocation = _membershipLocation;
     }
     
     /*modifiers*/
@@ -57,7 +57,8 @@ contract voting{
     
     /*functions*/
     function propose (bytes _content) public {
-        
+	//require content not empty
+        require (_content.length != 0);
         ProposalById[proposalIdCount] = (Proposal
         (proposalIdCount, msg.sender, _content, 
         status.open, block.timestamp + 3 days, 0));

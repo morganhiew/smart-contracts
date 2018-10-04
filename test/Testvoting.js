@@ -22,13 +22,14 @@ contract('voting', accounts => {
   const acc3 = accounts[2];
 
   //positive test cases
-  it('should pass and close a vote with >1 votecounts after 3 days', async () => {
+  it('should set up correct membership address', async () => {
     const meta = await voting.new('0x2', {from: acc1});
-    assert.equal (meta.showMembership(), '0x2', 'The membership address setup is incorrect')
+    var membership = await meta.showMembership();
+    assert.equal (membership, '0x0000000000000000000000000000000000000002', membership)
   })
 
   it('should correctly setup a proposal', async () => {
-      const meta = await voting.new('0x0', {from: acc1});
+      const meta = await voting.new('0x1', {from: acc1});
       await meta.propose ('hello world!', {from: acc1});
       var [content_proposalId, content_proposer, content_proposalContent,
         content_proposalStatus, content_timeEnd,
@@ -43,7 +44,7 @@ contract('voting', accounts => {
     })
 
     it('acc2 should be able to vote a proposal', async () => {
-        const meta = await voting.new('0x0', {from: acc1});
+        const meta = await voting.new('0x1', {from: acc1});
         await meta.propose ('hello world!', {from: acc1});
         await meta.vote('0', {from: acc2});
         var [a, b, c, d, e, content_voteCount] = await meta.getProposal('0');
@@ -51,7 +52,7 @@ contract('voting', accounts => {
       })
 
     it('should pass and close a vote with >1 votecounts after 3 days', async () => {
-      const meta = await voting.new('0x0', {from: acc1});
+      const meta = await voting.new('0x1', {from: acc1});
       await meta.propose ('hello world!', {from: acc1});
       await meta.vote('0', {from: acc1});
       await meta.vote('0', {from: acc2});
@@ -63,6 +64,11 @@ contract('voting', accounts => {
     })
 
     //path testing
+    it('membership set up should not be empty', async () => {
+      const meta = await voting.new('', {from: acc1});
+      var membership = await meta.showMembership();
+      assert.equal (membership, '0x0000000000000000000000000000000000000000', membership)
+    })
 
 
 
