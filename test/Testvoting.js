@@ -16,12 +16,17 @@ const timeTravel = function (time) {
 
 
 
-contract('TokenRegistry', accounts => {
+contract('voting', accounts => {
   const acc1 = accounts[0];
   const acc2 = accounts[1];
   const acc3 = accounts[2];
 
   //positive test cases
+  it('should pass and close a vote with >1 votecounts after 3 days', async () => {
+    const meta = await voting.new('0x2', {from: acc1});
+    assert.equal (meta.showMembership(), '0x2', 'The membership address setup is incorrect')
+  })
+
   it('should correctly setup a proposal', async () => {
       const meta = await voting.new('0x0', {from: acc1});
       await meta.propose ('hello world!', {from: acc1});
@@ -57,7 +62,7 @@ contract('TokenRegistry', accounts => {
       assert.equal (content_proposalStatus, 2, 'The vote is not passed')
     })
 
-    //path testing 
+    //path testing
 
 
 
