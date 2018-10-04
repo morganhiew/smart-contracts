@@ -16,7 +16,7 @@ const timeTravel = function (time) {
 
 
 
-contract('voting', accounts => {
+contract('sunny-day cases', accounts => {
   const acc1 = accounts[0];
   const acc2 = accounts[1];
   const acc3 = accounts[2];
@@ -63,18 +63,76 @@ contract('voting', accounts => {
       assert.equal (content_proposalStatus, 2, 'The vote is not passed')
     })
 
-    //path testing
-    it('membership set up should not be empty', async () => {
-      const meta = await voting.new('', {from: acc1});
-      var membership = await meta.showMembership();
-      assert.equal (membership, '0x0000000000000000000000000000000000000000', membership)
+    it('should fail and close a vote with <= 1 votecounts after 3 days', async () => {
+      const meta = await voting.new('0x1', {from: acc1});
+      await meta.propose ('hello world!', {from: acc1});
+      await meta.vote('0', {from: acc1});
+      //function timetravel is defined above
+      await timeTravel(86400*3+1);
+      await meta.closeProposal('0', {from: acc1});
+      var [a, b, c, content_proposalStatus, e, f] = await meta.getProposal('0');
+      assert.equal (content_proposalStatus, 1, 'The vote is not failed');
     })
 
+    it('proposal ID should correctly increment', async () => {
+      const meta = await voting.new('0x1', {from: acc1});
+      await meta.propose ('hello world!', {from: acc1});
+      await meta.propose ('bello world!', {from: acc2});
+      await meta.propose ('rello world!', {from: acc2});
+      var [id0, b, c, d, e, f] = await meta.getProposal('0');
+      var [id1, h, i, j, k, l] = await meta.getProposal('1');
+      var [id2, n, o, p, q, r] = await meta.getProposal('2');
+      assert.equal (id0, 0, 'the proposal id increment is incorrect');
+      assert.equal (id1, 1, 'the proposal id increment is incorrect');
+      assert.equal (id2, 2, 'the proposal id increment is incorrect');
+    })
+})
 
+contract('rainy-day cases', accounts => {
+  const acc1 = accounts[0];
+  const acc2 = accounts[1];
+  const acc3 = accounts[2];
 
+    //path testing
+    it('proposal content should NOT be empty', async () => {
+      const meta = await voting.new('', {from: acc1});
+      let err = null
+      try {
+        await meta.propose ('', {from: acc1});
+      } catch (error) {
+        err = error;
+      }
+      assert.ok(err instanceof Error);
+    })
 
+    it('should NOT pass and close a vote with >1 votecounts before 3 day voting period', async () => {
+      const meta = await voting.new('0x1', {from: acc1});
+      await meta.propose ('hello world!', {from: acc1});
+      await meta.vote('0', {from: acc1});
+      await meta.vote('0', {from: acc2});
+      //function timetravel is defined above
+      await timeTravel(86400*3);
+      let err = null
+      try {
+        await meta.closeProposal('0', {from: acc1});
+      } catch (error) {
+        err = error;
+      }
+      assert.ok(err instanceof Error);
+    })
 
-
+    it('a person should NOT vote on the same proposal again', async() => {
+      const meta = await voting.new('0x1', {from: acc1});
+      await meta.propose ('hello world!', {from: acc1});
+      await meta.vote('0', {from: acc1});
+      let err = null
+      try{
+        await meta.vote('0', {from: acc1});
+      } catch (error) {
+        err = error;
+      }
+      assert.ok(err instanceof Error);
+    })
 
 
 })
