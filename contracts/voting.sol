@@ -12,7 +12,7 @@ contract voting{
     mapping (address => mapping (uint => bool)) Voted;
     //2. allow membership contract to check this attribute
     //as member that has a voted proposal in progress cannot transfer membership
-    mapping (address => uint) LastVoted;
+    mapping (address => uint) CannotTransferUntil;
     
     /*variables regarding the proposal*/
     //1. status of the proposal
@@ -47,6 +47,12 @@ contract voting{
         _;
     }
     
+    //check if is proposing member
+    modifier isProposingMember (address _memberAddress) {
+        //TODO
+        _;
+    }
+    
     //maker sure voter has not voted
     modifier hasNotVoted (uint _proposalId, address _hasVotedAddress) {
         require (Voted[_hasVotedAddress][_proposalId] == false);
@@ -74,9 +80,11 @@ contract voting{
             proposalStatus: 0 (open)
             uint timeEnd: 3 days from this function call is being mined
             uint voteCount: 0
-    restrictions: content of proposal not empty
+    restrictions: 
+        content of proposal is not empty
+        is prosing member
     */
-    function propose (bytes _content) public {
+    function propose (bytes _content) public isProposingMember(msg.sender) {
 	    //require content not empty
         require (_content.length != 0);
         //create a proposal with the following content
@@ -114,7 +122,7 @@ contract voting{
         //disallow the proposer to vote again
         Voted[msg.sender][_voteProposalId] = true;
         //update the voting time of this member
-        LastVoted[msg.sender]= block.timestamp;
+        CannotTransferUntil[msg.sender]= ProposalById[_voteProposalId].timeEnd;
         
     }
 
@@ -133,13 +141,18 @@ contract voting{
         the proposal has not yet expired
     */        
     function closeProposal (uint _closeProposalId) public {
-        require (now > ProposalById[_closeProposalId].timeEnd);
+        require (now > ProposalById[_closeProposalId].timeEnd 
+        || ProposalById[_closeProposalId].voteCount > 1 
+        /*voteCount > 1 is just a mock, 
+        will be (membershipLocation.numberOfmember()+1)/2*/);
         
-        /*this function requires the membership contract to contain 
+        /* TODO
+        this function requires the membership contract to contain 
         numberOfmember (or similar) function
         this function calls the member no. counter in membership contract
         if (ProposalById[_closeProposalId].voteCount 
-        > membershipLocation.numberOfmember());*/
+        > (membershipLocation.numberOfmember()+1)/2;
+        */
         
         //the below is for demonstration and testing
         if (ProposalById[_closeProposalId].voteCount > 1){

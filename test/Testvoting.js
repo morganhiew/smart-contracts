@@ -125,11 +125,9 @@ contract('rainy-day cases', accounts => {
       assert.ok(err instanceof Error);
     })
 
-    it('should NOT pass and close a vote with >1 votecounts before 3 day voting period', async () => {
+    it('should NOT pass and close a vote with 0 votecounts before 3 day voting period', async () => {
       const meta = await voting.new('0x1', {from: acc1});
       await meta.propose ('hello world!', {from: acc1});
-      await meta.vote('0', {from: acc1});
-      await meta.vote('0', {from: acc2});
       //function timetravel is defined above
       await timeTravel(86400*3);
       let err = null
