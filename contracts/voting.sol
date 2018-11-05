@@ -3,7 +3,7 @@ pragma solidity ^0.4.24;
 contract voting{
     
     /*misc variables*/
-    address membershipLocation;
+    OaxMembership membershipLocation;
     uint proposalIdCount = 0;
     
     
@@ -30,26 +30,33 @@ contract voting{
         uint voteCount;
     }
     
+    /*events*/
+    event Propose (
+        uint _id, address _proposer, bytes _content, uint _timeEnd
+        );
+    event Vote(
+        uint _id, address _voter
+        );
+    event CloseProposal(
+        uint _id, address _closer, status _status
+        );
+    
     /*function run at first setup*/
     //setup membership address for checking 
-    //whether an address is a voting member etc. 
     constructor (address _membershipLocation) public {
-	membershipLocation = _membershipLocation;
+	    membershipLocation = OaxMembership(_membershipLocation);
     }
-    
+
     /*checkers for functions*/
     //check if is voting member
     modifier isVotingMember (address _memberAddress) {
-        //TODO
-        //needs the target membership contract to have 
-        //an isMember (or similar )function
-        //require (membershipLocation.isMember(_memberAddress));
+        require (membershipLocation.isVotingMember(_memberAddress));
         _;
     }
     
     //check if is proposing member
     modifier isProposingMember (address _memberAddress) {
-        //TODO
+        require (membershipLocation.isMember(_memberAddress));
         _;
     }
     
@@ -59,7 +66,7 @@ contract voting{
         _;
     }
     
-    //make sure the following action mustbe done within the expiry period
+    //make sure the following action must be done within the expiry period
     modifier proposalNotExpired (uint _expireProposalId) {
         require (now <= ProposalById[_expireProposalId].timeEnd);
         _;
@@ -87,17 +94,18 @@ contract voting{
     function propose (bytes _content) public isProposingMember(msg.sender) {
 	    //require content not empty
         require (_content.length != 0);
+        uint endTime = now + 3 days;
         //create a proposal with the following content
         ProposalById[proposalIdCount] = (Proposal
         (proposalIdCount, msg.sender, _content, 
-        status.open, block.timestamp + 3 days, 0));
+        status.open, endTime, 0));
+
+        emit Propose(proposalIdCount, msg.sender, _content, endTime);
+
+
         //increment id for next proposal to use
         proposalIdCount += 1;
-        
-        //consider put the proposer's vote here too
-        //concern is both voting and non-voting members can propose
-        //which the increased complexity may lead to higher gas cost
-        
+
     }
     
     /*
@@ -124,6 +132,7 @@ contract voting{
         //update the voting time of this member
         CannotTransferUntil[msg.sender]= ProposalById[_voteProposalId].timeEnd;
         
+        emit Vote(_voteProposalId, msg.sender);
     }
 
     /*
@@ -157,9 +166,11 @@ contract voting{
         //the below is for demonstration and testing
         if (ProposalById[_closeProposalId].voteCount > 1){
             ProposalById[_closeProposalId].proposalStatus = status.accepted;
+            emit CloseProposal(_closeProposalId, msg.sender, status.accepted);
         }
         else {
-        ProposalById[_closeProposalId].proposalStatus = status.denied;
+            ProposalById[_closeProposalId].proposalStatus = status.denied;
+            emit CloseProposal(_closeProposalId, msg.sender, status.denied);
         }
         
         
@@ -188,4 +199,41 @@ contract voting{
 }
 
 
-//questions1: success proposal means >50% of which date?
+
+
+
+
+
+
+
+
+
+
+contract OaxMembership {
+    uint256 public constant MembershipStake = 10**18;
+/*
+    Token public memberToken;
+    Token public gatewayToken;
+    Token public votingToken;
+
+    constructor(address _memberToken, address _gatewayToken, address _votingToken) public {
+        memberToken = Token(_memberToken);
+        gatewayToken = Token(_gatewayToken);
+        votingToken = Token(_votingToken);
+    }
+*/
+    function isMember(address _guy) public view returns(bool) {
+       // return memberToken.balanceOf(_guy) >= MembershipStake;
+       return true;
+    }
+
+    function isGatewayMember(address _guy) public view returns(bool) {
+       // return gatewayToken.balanceOf(_guy) >= MembershipStake;
+       return true;
+    }
+
+    function isVotingMember(address _guy) public view returns(bool) {
+       // return votingToken.balanceOf(_guy) >= MembershipStake;
+       return true;
+    }
+}

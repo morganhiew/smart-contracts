@@ -1,5 +1,5 @@
 const voting = artifacts.require("voting");
-const OaxMembership = artifacts.require("OaxMembership");
+const voting = artifacts.require("OaxMembership");
 
 const timeTravel = function (time) {
   return new Promise((resolve, reject) => {
@@ -27,12 +27,11 @@ contract('general sunny-day cases', accounts => {
     const pre = await OaxMembership.new({from: acc1});
     const meta = await voting.new(pre.address, {from: acc1});
     var membership = await meta.showMembership();
-    assert.equal (membership, pre.address, 'membership address is incorrect')
+    assert.equal (membership, '0x0000000000000000000000000000000000000002', membership)
   })
 
   it('should correctly setup a proposal', async () => {
-      const pre = await OaxMembership.new({from: acc1});
-      const meta = await voting.new(pre.address, {from: acc1});
+      const meta = await voting.new('0x1', {from: acc1});
       await meta.propose ('hello world!', {from: acc1});
       var [content_proposalId, content_proposer, content_proposalContent,
         content_proposalStatus, content_timeEnd,
@@ -47,8 +46,7 @@ contract('general sunny-day cases', accounts => {
     })
 
     it('another account should be able to vote a proposal', async () => {
-        const pre = await OaxMembership.new({from: acc1});
-        const meta = await voting.new(pre.address, {from: acc1});
+        const meta = await voting.new('0x1', {from: acc1});
         await meta.propose ('hello world!', {from: acc1});
         await meta.vote('0', {from: acc2});
         var [a, b, c, d, e, content_voteCount] = await meta.getProposal('0');
@@ -56,8 +54,7 @@ contract('general sunny-day cases', accounts => {
       })
 
     it('should pass and close a vote with >1 votecounts after 3 days', async () => {
-      const pre = await OaxMembership.new({from: acc1});
-      const meta = await voting.new(pre.address, {from: acc1});
+      const meta = await voting.new('0x1', {from: acc1});
       await meta.propose ('hello world!', {from: acc1});
       await meta.vote('0', {from: acc1});
       await meta.vote('0', {from: acc2});
@@ -69,8 +66,7 @@ contract('general sunny-day cases', accounts => {
     })
 
     it('should fail and close a vote with <= 1 votecounts after 3 days', async () => {
-      const pre = await OaxMembership.new({from: acc1});
-      const meta = await voting.new(pre.address, {from: acc1});
+      const meta = await voting.new('0x1', {from: acc1});
       await meta.propose ('hello world!', {from: acc1});
       await meta.vote('0', {from: acc1});
       //function timetravel is defined above
@@ -89,8 +85,7 @@ contract('increment checks', accounts => {
   const acc3 = accounts[2];
 
   it('proposal ID should correctly increment', async () => {
-    const pre = await OaxMembership.new({from: acc1});
-    const meta = await voting.new(pre.address, {from: acc1});
+    const meta = await voting.new('0x1', {from: acc1});
     await meta.propose ('hello world!', {from: acc1});
     await meta.propose ('bello world!', {from: acc2});
     await meta.propose ('rello world!', {from: acc2});
@@ -103,8 +98,7 @@ contract('increment checks', accounts => {
   })
 
   it('vote count should correctly increment', async () => {
-    const pre = await OaxMembership.new({from: acc1});
-    const meta = await voting.new(pre.address, {from: acc1});
+    const meta = await voting.new('0x1', {from: acc1});
     await meta.propose ('hello world!', {from: acc1});
     await meta.vote('0', {from: acc1});
     await meta.vote('0', {from: acc2});
@@ -123,7 +117,6 @@ contract('rainy-day cases', accounts => {
 
     //path testing
     it('proposal content should NOT be empty', async () => {
-      const pre = await OaxMembership.new({from: acc1});
       const meta = await voting.new('', {from: acc1});
       let err = null
       try {
@@ -135,8 +128,7 @@ contract('rainy-day cases', accounts => {
     })
 
     it('should NOT pass and close a vote with 0 votecounts before 3 day voting period', async () => {
-      const pre = await OaxMembership.new({from: acc1});
-      const meta = await voting.new(pre.address, {from: acc1});
+      const meta = await voting.new('0x1', {from: acc1});
       await meta.propose ('hello world!', {from: acc1});
       //function timetravel is defined above
       await timeTravel(86400*3);
@@ -150,8 +142,7 @@ contract('rainy-day cases', accounts => {
     })
 
     it('a person should NOT vote on the same proposal again', async() => {
-      const pre = await OaxMembership.new({from: acc1});
-      const meta = await voting.new(pre.address, {from: acc1});
+      const meta = await voting.new('0x1', {from: acc1});
       await meta.propose ('hello world!', {from: acc1});
       await meta.vote('0', {from: acc1});
       let err = null

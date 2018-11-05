@@ -1,155 +1,11 @@
 {
-  "contractName": "voting",
+  "contractName": "OaxMembership",
   "abi": [
     {
-      "inputs": [
-        {
-          "name": "_membershipLocation",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "name": "_id",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "name": "_proposer",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "name": "_content",
-          "type": "bytes"
-        },
-        {
-          "indexed": false,
-          "name": "_timeEnd",
-          "type": "uint256"
-        }
-      ],
-      "name": "Propose",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "name": "_id",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "name": "_voter",
-          "type": "address"
-        }
-      ],
-      "name": "Vote",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "name": "_id",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "name": "_closer",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "name": "_status",
-          "type": "uint8"
-        }
-      ],
-      "name": "CloseProposal",
-      "type": "event"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_content",
-          "type": "bytes"
-        }
-      ],
-      "name": "propose",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_voteProposalId",
-          "type": "uint256"
-        }
-      ],
-      "name": "vote",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_closeProposalId",
-          "type": "uint256"
-        }
-      ],
-      "name": "closeProposal",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "constant": true,
-      "inputs": [
-        {
-          "name": "_getProposalId",
-          "type": "uint256"
-        }
-      ],
-      "name": "getProposal",
+      "inputs": [],
+      "name": "MembershipStake",
       "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        },
-        {
-          "name": "",
-          "type": "address"
-        },
-        {
-          "name": "",
-          "type": "bytes"
-        },
-        {
-          "name": "",
-          "type": "uint8"
-        },
-        {
-          "name": "",
-          "type": "uint256"
-        },
         {
           "name": "",
           "type": "uint256"
@@ -161,12 +17,55 @@
     },
     {
       "constant": true,
-      "inputs": [],
-      "name": "showMembership",
+      "inputs": [
+        {
+          "name": "_guy",
+          "type": "address"
+        }
+      ],
+      "name": "isMember",
       "outputs": [
         {
           "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_guy",
           "type": "address"
+        }
+      ],
+      "name": "isGatewayMember",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_guy",
+          "type": "address"
+        }
+      ],
+      "name": "isVotingMember",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
         }
       ],
       "payable": false,
@@ -174,10 +73,10 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x6080604052600060015534801561001557600080fd5b50604051602080610d8483398101806040528101908080519060200190929190505050806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050610cfc806100886000396000f30060806040526004361061006d576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680630121b93f146100725780630386a0161461009f578063226c6584146100cc57806337558af514610123578063c7f758a81461018c575b600080fd5b34801561007e57600080fd5b5061009d6004803603810190808035906020019092919050505061028f565b005b3480156100ab57600080fd5b506100ca60048036038101908080359060200190929190505050610585565b005b3480156100d857600080fd5b506100e1610766565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34801561012f57600080fd5b5061018a600480360381019080803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050919291929050505061078f565b005b34801561019857600080fd5b506101b760048036038101908080359060200190929190505050610aba565b604051808781526020018673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018060200185600281111561020357fe5b60ff168152602001848152602001838152602001828103825286818151815260200191508051906020019080838360005b8381101561024f578082015181840152602081019050610234565b50505050905090810190601f16801561027c5780820380516001836020036101000a031916815260200191505b5097505050505050505060405180910390f35b336000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16639b2b622d826040518263ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050602060405180830381600087803b15801561034c57600080fd5b505af1158015610360573d6000803e3d6000fd5b505050506040513d602081101561037657600080fd5b8101908080519060200190929190505050151561039257600080fd5b813360001515600260008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600084815260200190815260200160002060009054906101000a900460ff16151514151561040457600080fd5b836004600082815260200190815260200160002060040154421115151561042a57600080fd5b60046000868152602001908152602001600020600501600081548092919060010191905055506001600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600087815260200190815260200160002060006101000a81548160ff0219169083151502179055506004600086815260200190815260200160002060040154600360003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055507f10a412bf229fbac2408912cb271b8ff9eb39eb72da91dd0c8accab0fb10111358533604051808381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019250505060405180910390a15050505050565b60046000828152602001908152602001600020600401544211806105bf575060016004600083815260200190815260200160002060050154115b15156105ca57600080fd5b6001600460008381526020019081526020016000206005015411156106a85760026004600083815260200190815260200160002060030160006101000a81548160ff0219169083600281111561061c57fe5b02179055507f685bb53b6abceaff81dfc4d57d2cdfac3a0e55d6164fad9f8ce3b78cc450d0d681336002604051808481526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182600281111561068e57fe5b60ff168152602001935050505060405180910390a1610763565b60016004600083815260200190815260200160002060030160006101000a81548160ff021916908360028111156106db57fe5b02179055507f685bb53b6abceaff81dfc4d57d2cdfac3a0e55d6164fad9f8ce3b78cc450d0d681336001604051808481526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182600281111561074d57fe5b60ff168152602001935050505060405180910390a15b50565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b6000336000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663a230c524826040518263ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050602060405180830381600087803b15801561084e57600080fd5b505af1158015610862573d6000803e3d6000fd5b505050506040513d602081101561087857600080fd5b8101908080519060200190929190505050151561089457600080fd5b60008351141515156108a557600080fd5b6203f4804201915060c06040519081016040528060015481526020013373ffffffffffffffffffffffffffffffffffffffff168152602001848152602001600060028111156108f057fe5b815260200183815260200160008152506004600060015481526020019081526020016000206000820151816000015560208201518160010160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506040820151816002019080519060200190610982929190610c2b565b5060608201518160030160006101000a81548160ff021916908360028111156109a757fe5b02179055506080820151816004015560a082015181600501559050507f1c3b9e4f9b3cec152c5611294c9cb41759d203daf4511bd125e1dec7dc534f1a600154338585604051808581526020018473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200180602001838152602001828103825284818151815260200191508051906020019080838360005b83811015610a68578082015181840152602081019050610a4d565b50505050905090810190601f168015610a955780820380516001836020036101000a031916815260200191505b509550505050505060405180910390a160018060008282540192505081905550505050565b6000806060600080600060046000888152602001908152602001600020600001546004600089815260200190815260200160002060010160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16600460008a8152602001908152602001600020600201600460008b815260200190815260200160002060030160009054906101000a900460ff16600460008c815260200190815260200160002060040154600460008d815260200190815260200160002060050154838054600181600116156101000203166002900480601f016020809104026020016040519081016040528092919081815260200182805460018160011615610100020316600290048015610c0f5780601f10610be457610100808354040283529160200191610c0f565b820191906000526020600020905b815481529060010190602001808311610bf257829003601f168201915b5050505050935095509550955095509550955091939550919395565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10610c6c57805160ff1916838001178555610c9a565b82800160010185558215610c9a579182015b82811115610c99578251825591602001919060010190610c7e565b5b509050610ca79190610cab565b5090565b610ccd91905b80821115610cc9576000816000905550600101610cb1565b5090565b905600a165627a7a72305820ac5f0538963e1d812c70757125920b077e470b029309f92f512f6d60014f5fcf0029",
-  "deployedBytecode": "0x60806040526004361061006d576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680630121b93f146100725780630386a0161461009f578063226c6584146100cc57806337558af514610123578063c7f758a81461018c575b600080fd5b34801561007e57600080fd5b5061009d6004803603810190808035906020019092919050505061028f565b005b3480156100ab57600080fd5b506100ca60048036038101908080359060200190929190505050610585565b005b3480156100d857600080fd5b506100e1610766565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34801561012f57600080fd5b5061018a600480360381019080803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050919291929050505061078f565b005b34801561019857600080fd5b506101b760048036038101908080359060200190929190505050610aba565b604051808781526020018673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018060200185600281111561020357fe5b60ff168152602001848152602001838152602001828103825286818151815260200191508051906020019080838360005b8381101561024f578082015181840152602081019050610234565b50505050905090810190601f16801561027c5780820380516001836020036101000a031916815260200191505b5097505050505050505060405180910390f35b336000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16639b2b622d826040518263ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050602060405180830381600087803b15801561034c57600080fd5b505af1158015610360573d6000803e3d6000fd5b505050506040513d602081101561037657600080fd5b8101908080519060200190929190505050151561039257600080fd5b813360001515600260008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600084815260200190815260200160002060009054906101000a900460ff16151514151561040457600080fd5b836004600082815260200190815260200160002060040154421115151561042a57600080fd5b60046000868152602001908152602001600020600501600081548092919060010191905055506001600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600087815260200190815260200160002060006101000a81548160ff0219169083151502179055506004600086815260200190815260200160002060040154600360003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055507f10a412bf229fbac2408912cb271b8ff9eb39eb72da91dd0c8accab0fb10111358533604051808381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019250505060405180910390a15050505050565b60046000828152602001908152602001600020600401544211806105bf575060016004600083815260200190815260200160002060050154115b15156105ca57600080fd5b6001600460008381526020019081526020016000206005015411156106a85760026004600083815260200190815260200160002060030160006101000a81548160ff0219169083600281111561061c57fe5b02179055507f685bb53b6abceaff81dfc4d57d2cdfac3a0e55d6164fad9f8ce3b78cc450d0d681336002604051808481526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182600281111561068e57fe5b60ff168152602001935050505060405180910390a1610763565b60016004600083815260200190815260200160002060030160006101000a81548160ff021916908360028111156106db57fe5b02179055507f685bb53b6abceaff81dfc4d57d2cdfac3a0e55d6164fad9f8ce3b78cc450d0d681336001604051808481526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182600281111561074d57fe5b60ff168152602001935050505060405180910390a15b50565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b6000336000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663a230c524826040518263ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050602060405180830381600087803b15801561084e57600080fd5b505af1158015610862573d6000803e3d6000fd5b505050506040513d602081101561087857600080fd5b8101908080519060200190929190505050151561089457600080fd5b60008351141515156108a557600080fd5b6203f4804201915060c06040519081016040528060015481526020013373ffffffffffffffffffffffffffffffffffffffff168152602001848152602001600060028111156108f057fe5b815260200183815260200160008152506004600060015481526020019081526020016000206000820151816000015560208201518160010160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506040820151816002019080519060200190610982929190610c2b565b5060608201518160030160006101000a81548160ff021916908360028111156109a757fe5b02179055506080820151816004015560a082015181600501559050507f1c3b9e4f9b3cec152c5611294c9cb41759d203daf4511bd125e1dec7dc534f1a600154338585604051808581526020018473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200180602001838152602001828103825284818151815260200191508051906020019080838360005b83811015610a68578082015181840152602081019050610a4d565b50505050905090810190601f168015610a955780820380516001836020036101000a031916815260200191505b509550505050505060405180910390a160018060008282540192505081905550505050565b6000806060600080600060046000888152602001908152602001600020600001546004600089815260200190815260200160002060010160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16600460008a8152602001908152602001600020600201600460008b815260200190815260200160002060030160009054906101000a900460ff16600460008c815260200190815260200160002060040154600460008d815260200190815260200160002060050154838054600181600116156101000203166002900480601f016020809104026020016040519081016040528092919081815260200182805460018160011615610100020316600290048015610c0f5780601f10610be457610100808354040283529160200191610c0f565b820191906000526020600020905b815481529060010190602001808311610bf257829003601f168201915b5050505050935095509550955095509550955091939550919395565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10610c6c57805160ff1916838001178555610c9a565b82800160010185558215610c9a579182015b82811115610c99578251825591602001919060010190610c7e565b5b509050610ca79190610cab565b5090565b610ccd91905b80821115610cc9576000816000905550600101610cb1565b5090565b905600a165627a7a72305820ac5f0538963e1d812c70757125920b077e470b029309f92f512f6d60014f5fcf0029",
-  "sourceMap": "26:6893:0:-;;;136:1;113:24;;1366:118;8:9:-1;5:2;;;30:1;27;20:12;5:2;1366:118:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1457:19;1422:18;;:55;;;;;;;;;;;;;;;;;;1366:118;26:6893;;;;;;",
-  "deployedSourceMap": "26:6893:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4028:502;;8:9:-1;5:2;;;30:1;27;20:12;5:2;4028:502:0;;;;;;;;;;;;;;;;;;;;;;;;;;5089:1095;;8:9:-1;5:2;;;30:1;27;20:12;5:2;5089:1095:0;;;;;;;;;;;;;;;;;;;;;;;;;;6810:105;;8:9:-1;5:2;;;30:1;27;20:12;5:2;6810:105:0;;;;;;;;;;;;;;;;;;;;;;;;;;;2989:529;;8:9:-1;5:2;;;30:1;27;20:12;5:2;2989:529:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6301:430;;8:9:-1;5:2;;;30:1;27;20:12;5:2;6301:430:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;6301:430:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4028:502;4092:10;1621:18;;;;;;;;;;;:33;;;1655:14;1621:49;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1621:49:0;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1621:49:0;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1621:49:0;;;;;;;;;;;;;;;;1612:59;;;;;;;;4121:15;4137:10;2039:5;1999:45;;:5;:23;2005:16;1999:23;;;;;;;;;;;;;;;:36;2023:11;1999:36;;;;;;;;;;;;;;;;;;;;;:45;;;1990:55;;;;;;;;4172:15;2227:12;:31;2240:17;2227:31;;;;;;;;;;;:39;;;2220:3;:46;;2211:56;;;;;;;;4199:12;:29;4212:15;4199:29;;;;;;;;;;;:39;;;:42;;;;;;;;;;;;;4334:4;4297:5;:17;4303:10;4297:17;;;;;;;;;;;;;;;:34;4315:15;4297:34;;;;;;;;;;;;:41;;;;;;;;;;;;;;;;;;4429:12;:29;4442:15;4429:29;;;;;;;;;;;:37;;;4396:19;:31;4416:10;4396:31;;;;;;;;;;;;;;;:70;;;;4490:33;4495:15;4512:10;4490:33;;;;;;;;;;;;;;;;;;;;;;;;;;;;2055:1;1681;;4028:502;;:::o;5089:1095::-;5168:12;:30;5181:16;5168:30;;;;;;;;;;;:38;;;5162:3;:44;:101;;;;5262:1;5219:12;:30;5232:16;5219:30;;;;;;;;;;;:40;;;:44;5162:101;5153:213;;;;;;;;5814:1;5771:12;:30;5784:16;5771:30;;;;;;;;;;;:40;;;:44;5767:393;;;5878:15;5830:12;:30;5843:16;5830:30;;;;;;;;;;;:45;;;:63;;;;;;;;;;;;;;;;;;;;;;;;5912:60;5926:16;5944:10;5956:15;5912:60;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5767:393;;;6059:13;6011:12;:30;6024:16;6011:30;;;;;;;;;;;:45;;;:61;;;;;;;;;;;;;;;;;;;;;;;;6091:58;6105:16;6123:10;6135:13;6091:58;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5767:393;5089:1095;:::o;6810:105::-;6856:7;6886:18;;;;;;;;;;;6879:25;;6810:105;:::o;2989:529::-;3143:12;3048:10;1805:18;;;;;;;;;;;:27;;;1833:14;1805:43;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1805:43:0;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1805:43:0;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1805:43:0;;;;;;;;;;;;;;;;1796:53;;;;;;;;3131:1;3112:8;:15;:20;;3103:30;;;;;;;;3164:6;3158:3;:12;3143:27;;3268:90;;;;;;;;;3286:15;;3268:90;;;;3303:10;3268:90;;;;;;3315:8;3268:90;;;;3334:11;3268:90;;;;;;;;;;;;3347:7;3268:90;;;;3356:1;3268:90;;;3235:12;:29;3248:15;;3235:29;;;;;;;;;;;:124;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3375:55;3383:15;;3400:10;3412:8;3422:7;3375:55;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;3375:55:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3509:1;3490:15;;:20;;;;;;;;;;;2989:529;;;:::o;6301:430::-;6364:4;6370:7;6379:5;6386:6;6394:4;6400;6424:12;:28;6437:14;6424:28;;;;;;;;;;;:39;;;6474:12;:28;6487:14;6474:28;;;;;;;;;;;:37;;;;;;;;;;;;6522:12;:28;6535:14;6522:28;;;;;;;;;;;:44;;6576:12;:28;6589:14;6576:28;;;;;;;;;;;:43;;;;;;;;;;;;6629:12;:28;6642:14;6629:28;;;;;;;;;;;:36;;;6676:12;:28;6689:14;6676:28;;;;;;;;;;;:38;;;6416:299;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6301:430;;;;;;;:::o;26:6893::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "bytecode": "0x608060405234801561001057600080fd5b506101fc806100206000396000f300608060405260043610610062576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806322a4477b1461006757806375a8c272146100c25780639b2b622d146100ed578063a230c52414610148575b600080fd5b34801561007357600080fd5b506100a8600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101a3565b604051808215151515815260200191505060405180910390f35b3480156100ce57600080fd5b506100d76101ae565b6040518082815260200191505060405180910390f35b3480156100f957600080fd5b5061012e600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101ba565b604051808215151515815260200191505060405180910390f35b34801561015457600080fd5b50610189600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101c5565b604051808215151515815260200191505060405180910390f35b600060019050919050565b670de0b6b3a764000081565b600060019050919050565b6000600190509190505600a165627a7a72305820595cdbe25f5fb50ecaaa11967a0986a03effdffdc3e06ca117d6c8a3c43b24040029",
+  "deployedBytecode": "0x608060405260043610610062576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806322a4477b1461006757806375a8c272146100c25780639b2b622d146100ed578063a230c52414610148575b600080fd5b34801561007357600080fd5b506100a8600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101a3565b604051808215151515815260200191505060405180910390f35b3480156100ce57600080fd5b506100d76101ae565b6040518082815260200191505060405180910390f35b3480156100f957600080fd5b5061012e600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101ba565b604051808215151515815260200191505060405180910390f35b34801561015457600080fd5b50610189600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101c5565b604051808215151515815260200191505060405180910390f35b600060019050919050565b670de0b6b3a764000081565b600060019050919050565b6000600190509190505600a165627a7a72305820595cdbe25f5fb50ecaaa11967a0986a03effdffdc3e06ca117d6c8a3c43b24040029",
+  "sourceMap": "6932:888:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;6932:888:0;;;;;;;",
+  "deployedSourceMap": "6932:888:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;7498:158;;8:9:-1;5:2;;;30:1;27;20:12;5:2;7498:158:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6961:48;;8:9:-1;5:2;;;30:1;27;20:12;5:2;6961:48:0;;;;;;;;;;;;;;;;;;;;;;;7662:156;;8:9:-1;5:2;;;30:1;27;20:12;5:2;7662:156:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;7342:150;;8:9:-1;5:2;;;30:1;27;20:12;5:2;7342:150:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;7498:158;7557:4;7645;7638:11;;7498:158;;;:::o;6961:48::-;7003:6;6961:48;:::o;7662:156::-;7720:4;7807;7800:11;;7662:156;;;:::o;7342:150::-;7394:4;7481;7474:11;;7342:150;;;:::o",
   "source": "pragma solidity ^0.4.24;\n\ncontract voting{\n    \n    /*misc variables*/\n    OaxMembership membershipLocation;\n    uint proposalIdCount = 0;\n    \n    \n    /*variables regarding the vote status of an individual voter*/\n    //1. status of 'voted?' given voter address and given proposalId\n    mapping (address => mapping (uint => bool)) Voted;\n    //2. allow membership contract to check this attribute\n    //as member that has a voted proposal in progress cannot transfer membership\n    mapping (address => uint) CannotTransferUntil;\n    \n    /*variables regarding the proposal*/\n    //1. status of the proposal\n    enum status {open, denied, accepted}    \n    //2. link an id to a unique proposal\n    mapping (uint => Proposal) ProposalById;\n    //3. things that each proposal contains\n    struct Proposal {\n        //this id duplicates the mapping\n        uint proposalId;\n        address proposer;\n        bytes proposalContent;\n        status proposalStatus;\n        uint timeEnd;\n        uint voteCount;\n    }\n    \n    /*events*/\n    event Propose (\n        uint _id, address _proposer, bytes _content, uint _timeEnd\n        );\n    event Vote(\n        uint _id, address _voter\n        );\n    event CloseProposal(\n        uint _id, address _closer, status _status\n        );\n    \n    /*function run at first setup*/\n    //setup membership address for checking \n    constructor (address _membershipLocation) public {\n\t    membershipLocation = OaxMembership(_membershipLocation);\n    }\n\n    /*checkers for functions*/\n    //check if is voting member\n    modifier isVotingMember (address _memberAddress) {\n        require (membershipLocation.isVotingMember(_memberAddress));\n        _;\n    }\n    \n    //check if is proposing member\n    modifier isProposingMember (address _memberAddress) {\n        require (membershipLocation.isMember(_memberAddress));\n        _;\n    }\n    \n    //maker sure voter has not voted\n    modifier hasNotVoted (uint _proposalId, address _hasVotedAddress) {\n        require (Voted[_hasVotedAddress][_proposalId] == false);\n        _;\n    }\n    \n    //make sure the following action must be done within the expiry period\n    modifier proposalNotExpired (uint _expireProposalId) {\n        require (now <= ProposalById[_expireProposalId].timeEnd);\n        _;\n    }\n    \n    /*functions*/\n    \n    /*\n    main function 1: propose\n    \n    example input: content of proposal (i.e. 'hello world!')\n    expected output: \n        a new proposal with the following properties\n            proposalId: generated by smart contract, start from 0 to n\n            proposer: the address which calls this propose function\n            proposalContent: 68656c6c6f20776f726c6421 \n                            (the HEX representation of hello world)\n            proposalStatus: 0 (open)\n            uint timeEnd: 3 days from this function call is being mined\n            uint voteCount: 0\n    restrictions: \n        content of proposal is not empty\n        is prosing member\n    */\n    function propose (bytes _content) public isProposingMember(msg.sender) {\n\t    //require content not empty\n        require (_content.length != 0);\n        uint endTime = now + 3 days;\n        //create a proposal with the following content\n        ProposalById[proposalIdCount] = (Proposal\n        (proposalIdCount, msg.sender, _content, \n        status.open, endTime, 0));\n\n        emit Propose(proposalIdCount, msg.sender, _content, endTime);\n\n\n        //increment id for next proposal to use\n        proposalIdCount += 1;\n\n    }\n    \n    /*\n    main function 2: vote\n    \n    example input: id of proposal (i.e. 1)\n    expected output: \n        vote count of proposal of id 1 increases by 1\n        mark down the address which calls this function has already voted\n        update the latest voting time of the voter\n    \n    restrictions: \n        address which calls this function is a voting member\n        address which calls this function has not voted the same proposal before\n        the proposal has not yet expired\n    */    \n    function vote (uint _voteProposalId) public \n    isVotingMember(msg.sender) \n    hasNotVoted(_voteProposalId,msg.sender)\n    proposalNotExpired(_voteProposalId) {\n        ProposalById[_voteProposalId].voteCount ++;\n        //disallow the proposer to vote again\n        Voted[msg.sender][_voteProposalId] = true;\n        //update the voting time of this member\n        CannotTransferUntil[msg.sender]= ProposalById[_voteProposalId].timeEnd;\n        \n        emit Vote(_voteProposalId, msg.sender);\n    }\n\n    /*\n    main function 3: close proposal \n    \n    example input: id of proposal (i.e. 1)\n    expected output: \n        change the proposal status to accepted or denied according to:\n            the vote count, which must exceed 1/2 of total no. of members\n            the time, i.e. closes the proposal only after expiry period\n    \n    restrictions: \n        address which calls this function is a voting member\n        address which calls this function has not voted the same proposal before\n        the proposal has not yet expired\n    */        \n    function closeProposal (uint _closeProposalId) public {\n        require (now > ProposalById[_closeProposalId].timeEnd \n        || ProposalById[_closeProposalId].voteCount > 1 \n        /*voteCount > 1 is just a mock, \n        will be (membershipLocation.numberOfmember()+1)/2*/);\n        \n        /* TODO\n        this function requires the membership contract to contain \n        numberOfmember (or similar) function\n        this function calls the member no. counter in membership contract\n        if (ProposalById[_closeProposalId].voteCount \n        > (membershipLocation.numberOfmember()+1)/2;\n        */\n        \n        //the below is for demonstration and testing\n        if (ProposalById[_closeProposalId].voteCount > 1){\n            ProposalById[_closeProposalId].proposalStatus = status.accepted;\n            emit CloseProposal(_closeProposalId, msg.sender, status.accepted);\n        }\n        else {\n            ProposalById[_closeProposalId].proposalStatus = status.denied;\n            emit CloseProposal(_closeProposalId, msg.sender, status.denied);\n        }\n        \n        \n    }\n    \n    \n    /*view functions (not writing the smart contract)*/\n    \n    //retrieve info of proposal given id\n    function getProposal (uint _getProposalId) public view returns(uint, address, bytes, status, uint, uint) {\n        return (ProposalById[_getProposalId].proposalId, \n        ProposalById[_getProposalId].proposer, \n        ProposalById[_getProposalId].proposalContent,\n        ProposalById[_getProposalId].proposalStatus,\n        ProposalById[_getProposalId].timeEnd, \n        ProposalById[_getProposalId].voteCount);\n        \n    }\n    \n    //retrieve membership contract location which is setup initially\n    function showMembership() public view returns(address) {\n            return membershipLocation;\n        }\n\n\n}\n\n\n\n\n\n\n\n\n\n\n\n\ncontract OaxMembership {\n    uint256 public constant MembershipStake = 10**18;\n/*\n    Token public memberToken;\n    Token public gatewayToken;\n    Token public votingToken;\n\n    constructor(address _memberToken, address _gatewayToken, address _votingToken) public {\n        memberToken = Token(_memberToken);\n        gatewayToken = Token(_gatewayToken);\n        votingToken = Token(_votingToken);\n    }\n*/\n    function isMember(address _guy) public view returns(bool) {\n       // return memberToken.balanceOf(_guy) >= MembershipStake;\n       return true;\n    }\n\n    function isGatewayMember(address _guy) public view returns(bool) {\n       // return gatewayToken.balanceOf(_guy) >= MembershipStake;\n       return true;\n    }\n\n    function isVotingMember(address _guy) public view returns(bool) {\n       // return votingToken.balanceOf(_guy) >= MembershipStake;\n       return true;\n    }\n}\n",
   "sourcePath": "/Users/morganhiew/SolidityProject/voting2/contracts/voting.sol",
   "ast": {
@@ -10092,14 +9991,7 @@
     "name": "solc",
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
-  "networks": {
-    "4447": {
-      "events": {},
-      "links": {},
-      "address": "0xe134eee40a4a313a413e9b1da94bb5d01b79f433",
-      "transactionHash": "0x8b5b27cba95f01427cc6760685b0671ffffdeede34e3456f9fe6b7bc1117f3b3"
-    }
-  },
+  "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-11-05T08:18:56.358Z"
+  "updatedAt": "2018-11-05T08:18:56.326Z"
 }
